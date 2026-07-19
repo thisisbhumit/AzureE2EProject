@@ -1,0 +1,624 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory name",
+            "defaultValue": "ADF-B11-ETL-DEV"
+        },
+        "LS_AZSQLDB_METADATA_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'LS_AZSQLDB_METADATA'"
+        },
+        "LS_REST_Parquet_accountKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'accountKey' of 'LS_REST_Parquet'"
+        },
+        "LS_SNOWFLAKE_PARQ_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'LS_SNOWFLAKE_PARQ'"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_server": {
+            "type": "string",
+            "defaultValue": "bhumeet-sql-srvr-vb-dev1.database.windows.net"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "sql-db-vb-dev"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "access-data-dev"
+        },
+        "LS_REST_Parquet_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://@{linkedService().storage_account_loc}.dfs.core.windows.net"
+        },
+        "LS_RestService1_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://retoolapi.dev/CGcIqK/data"
+        },
+        "LS_ADLS_devisionboardraw01_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevraw01.dfs.core.windows.net/"
+        },
+        "LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SQL_ADLS_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SFTP_SINK_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SNOWFLAKE_PARQ_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "DBAZURESNOW"
+        },
+        "LS_BLOB_STAGE_sasUri": {
+            "type": "secureString",
+            "metadata": "Secure string for 'sasUri' of 'LS_BLOB_STAGE'"
+        },
+        "LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_AZSQLDB_METADATA')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureSqlDatabase",
+                "typeProperties": {
+                    "server": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_server')]",
+                    "database": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_database')]",
+                    "encrypt": "optional",
+                    "trustServerCertificate": false,
+                    "authenticationType": "SQL",
+                    "userName": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_userName')]",
+                    "password": {
+                        "type": "SecureString",
+                        "value": "[parameters('LS_AZSQLDB_METADATA_password')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_REST_Parquet')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_REST_Parquet_properties_typeProperties_url')]",
+                    "accountKey": {
+                        "type": "SecureString",
+                        "value": "[parameters('LS_REST_Parquet_accountKey')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_AZADLS_VB_CLOUD_RAW')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "parameters": {
+                    "storage_account_loc": {
+                        "type": "string"
+                    }
+                },
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_RestService1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "RestService",
+                "typeProperties": {
+                    "url": "[parameters('LS_RestService1_properties_typeProperties_url')]",
+                    "enableServerCertificateValidation": true,
+                    "authenticationType": "Anonymous"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_ADLS_devisionboardraw01')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_ADLS_devisionboardraw01_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_JSON_AzureDataLakeStorage1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_SQL_ADLS_PARQ')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_SQL_ADLS_PARQ_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_SFTP_SINK_PARQ')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_SFTP_SINK_PARQ_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_SNOWFLAKE_PARQ')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "SnowflakeV2",
+                "typeProperties": {
+                    "authenticationType": "Basic",
+                    "accountIdentifier": "BJSWCEK-SN34740",
+                    "user": "thisisbhumeet",
+                    "database": "[parameters('LS_SNOWFLAKE_PARQ_properties_typeProperties_database')]",
+                    "warehouse": "COMPUTE_WH",
+                    "password": {
+                        "type": "SecureString",
+                        "value": "[parameters('LS_SNOWFLAKE_PARQ_password')]"
+                    },
+                    "useUtcTimestamps": false
+                },
+                "version": "1.1"
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_BLOB_STAGE')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "sasUri": "[parameters('LS_BLOB_STAGE_sasUri')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_SNOWFLAKE_SINK_PARQ')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "[parameters('LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/IR-B11-SelfHosted')]",
+            "type": "Microsoft.DataFactory/factories/integrationRuntimes",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "type": "SelfHosted",
+                "typeProperties": {}
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_AZADLS_EXCELCOPY_CLOUD_SRC')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_AZADLS_VB_CLOUD_RAW",
+                    "type": "LinkedServiceReference",
+                    "parameters": {
+                        "storage_account_loc": "bhumeetadlsdevraw01"
+                    }
+                },
+                "parameters": {
+                    "storage_account_loc": {
+                        "type": "string"
+                    },
+                    "container": {
+                        "type": "string"
+                    },
+                    "dir": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "sheetname": {
+                        "type": "string"
+                    }
+                },
+                "annotations": [],
+                "type": "Excel",
+                "typeProperties": {
+                    "sheetName": {
+                        "value": "@dataset().sheetname",
+                        "type": "Expression"
+                    },
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "fileName": "olist_order_reviews_dataset.xlsx",
+                        "folderPath": {
+                            "value": "excel",
+                            "type": "Expression"
+                        },
+                        "fileSystem": "input"
+                    },
+                    "firstRowAsHeader": true
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_AZADLS_VB_CLOUD_RAW')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_AZADLS_CSVCOPY_CLOUD_SRC_PARQ')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_AZADLS_VB_CLOUD_RAW",
+                    "type": "LinkedServiceReference",
+                    "parameters": {
+                        "storage_account_loc": "@dataset().storage_account_loc"
+                    }
+                },
+                "parameters": {
+                    "storage_account_loc": {
+                        "type": "string"
+                    },
+                    "container": {
+                        "type": "string"
+                    },
+                    "dir": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string"
+                    }
+                },
+                "annotations": [],
+                "type": "Parquet",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "fileName": {
+                            "value": "@dataset().filename",
+                            "type": "Expression"
+                        },
+                        "folderPath": {
+                            "value": "@dataset().dir",
+                            "type": "Expression"
+                        },
+                        "fileSystem": {
+                            "value": "@dataset().container",
+                            "type": "Expression"
+                        }
+                    },
+                    "compressionCodec": "snappy"
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_AZADLS_VB_CLOUD_RAW')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_AZADLS_CSVCOPY_CLOUD_SRC')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_AZADLS_VB_CLOUD_RAW",
+                    "type": "LinkedServiceReference",
+                    "parameters": {
+                        "storage_account_loc": "@dataset().storage_account_loc"
+                    }
+                },
+                "parameters": {
+                    "storage_account_loc": {
+                        "type": "string"
+                    },
+                    "container": {
+                        "type": "string"
+                    },
+                    "dir": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string"
+                    }
+                },
+                "annotations": [],
+                "type": "DelimitedText",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "fileName": {
+                            "value": "@dataset().filename",
+                            "type": "Expression"
+                        },
+                        "folderPath": {
+                            "value": "@dataset().dir",
+                            "type": "Expression"
+                        },
+                        "fileSystem": {
+                            "value": "@dataset().container",
+                            "type": "Expression"
+                        }
+                    },
+                    "columnDelimiter": ",",
+                    "escapeChar": "\\",
+                    "firstRowAsHeader": true,
+                    "quoteChar": "\""
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_AZADLS_VB_CLOUD_RAW')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_JSON_Source')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_ADLS_devisionboardraw01",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Json",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "fileName": "jsontest.json",
+                        "folderPath": "json",
+                        "fileSystem": "input"
+                    }
+                },
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "index": {
+                            "type": "integer"
+                        },
+                        "guid": {
+                            "type": "string"
+                        },
+                        "isActive": {
+                            "type": "boolean"
+                        },
+                        "balance": {
+                            "type": "string"
+                        },
+                        "picture": {
+                            "type": "string"
+                        },
+                        "age": {
+                            "type": "integer"
+                        },
+                        "eyeColor": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "gender": {
+                            "type": "string"
+                        },
+                        "company": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "phone": {
+                            "type": "string"
+                        },
+                        "address": {
+                            "type": "string"
+                        },
+                        "about": {
+                            "type": "string"
+                        },
+                        "registered": {
+                            "type": "string"
+                        },
+                        "latitude": {
+                            "type": "number"
+                        },
+                        "longitude": {
+                            "type": "number"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "friends": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "greeting": {
+                            "type": "string"
+                        },
+                        "favoriteFruit": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_ADLS_devisionboardraw01')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_RestResource')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_RestService1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "RestResource",
+                "typeProperties": {},
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_RestService1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_JSON_Parquet_Sink')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_JSON_AzureDataLakeStorage1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Parquet",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "folderPath": {
+                            "value": "@concat('json/',formatDateTime(utcNow(),'yyyy'),'/',formatDateTime(utcNow(),'MM'),'/',formatDateTime(utcNow(),'dd'))",
+                            "type": "Expression"
+                        },
+                        "fileSystem": "input"
+                    },
+                    "compressionCodec": "snappy"
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_JSON_AzureDataLakeStorage1')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_REST_Parquet')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_REST_Parquet",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Parquet",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobFSLocation",
+                        "folderPath": {
+                            "value": "@concat('rest/',formatDateTime(utcNow(),'yyyy'),'/',formatDateTime(utcNow(),'MM'),'/',formatDateTime(utcNow(),'dd'))",
+                            "type": "Expression"
+                        },
+                        "fileSystem": "input"
+                    },
+                    "compressionCodec": "snappy"
+                },
+                "schema": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_REST_Parquet')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_AZSQLDB_METADATA')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_AZSQLDB_METADATA",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "schema": [],
+                "typeProperties": {}
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_AZSQLDB_METADATA')]"
+            ]
+        }
+    ]
+}

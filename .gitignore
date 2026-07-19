@@ -1,0 +1,53 @@
+# ── Secrets / credentials ──────────────────────────────
+*.env
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+*secret*
+*credential*
+*password*
+*.publishsettings
+azure.json
+local.settings.json
+*_sas.txt
+*sastoken*
+*.dapi
+dbutils_secrets.*
+
+# ── ARM parameter files (may hold deploy-time secrets) ──
+# NOTE: ARMTemplateParametersForFactory.json is committed only because
+# secret params are empty. If you populate them locally, un-ignore below.
+*ParametersForFactory.local.json
+adf/**/parameters.local.json
+
+# ── Archives / exports ─────────────────────────────────
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# ── Databricks / Python ────────────────────────────────
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.databricks/
+.venv/
+venv/
+env/
+
+# ── OS / editor ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── Build / temp ───────────────────────────────────────
+*.log
+*.tmp
+tmp/

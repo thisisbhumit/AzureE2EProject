@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "ADF-B11-ETL-DEV"
+        },
+        "LS_AZSQLDB_METADATA_password": {
+            "value": ""
+        },
+        "LS_REST_Parquet_accountKey": {
+            "value": ""
+        },
+        "LS_SqlServerTable_password": {
+            "value": ""
+        },
+        "LS_SNOWFLAKE_PARQ_password": {
+            "value": ""
+        },
+        "Tr_sample_snowflake_evt_properties_typeProperties_scope": {
+            "value": "/subscriptions/3196cebb-2fa6-4fc4-8c00-05a6e7e83259/resourceGroups/VB_DEV_B11_ETL/providers/Microsoft.Storage/storageAccounts/bhumeetblobstageddev01"
+        },
+        "Tr_sample_csv_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_csv"
+        },
+        "Tr_sample_restApi_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_restApi"
+        },
+        "Tr_sample_bulk_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_bulk"
+        },
+        "Tr_sample_snowflake_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_snowflake"
+        },
+        "Tr_sample_sql_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_sql"
+        },
+        "Tr_sample_sftp_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_sftp"
+        },
+        "Tr_sample_json_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_json"
+        },
+        "Tr_sample_excel_properties_PL1_Master_parameters_Trigger": {
+            "value": "Tr_sample_excel"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_server": {
+            "value": "bhumeet-sql-srvr-vb-dev1.database.windows.net"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_database": {
+            "value": "sql-db-vb-dev"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_userName": {
+            "value": "access-data-dev"
+        },
+        "LS_REST_Parquet_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url": {
+            "value": "https://@{linkedService().storage_account_loc}.dfs.core.windows.net"
+        },
+        "LS_RestService1_properties_typeProperties_url": {
+            "value": "https://retoolapi.dev/CGcIqK/data"
+        },
+        "LS_ADLS_devisionboardraw01_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevraw01.dfs.core.windows.net/"
+        },
+        "LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SqlServerTable_properties_typeProperties_server": {
+            "value": "localhost"
+        },
+        "LS_SqlServerTable_properties_typeProperties_database": {
+            "value": "vbproject"
+        },
+        "LS_SqlServerTable_properties_typeProperties_userName": {
+            "value": "thsisdataguy"
+        },
+        "LS_SQL_ADLS_PARQ_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SFTP_SINK_PARQ_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SNOWFLAKE_PARQ_properties_typeProperties_database": {
+            "value": "DBAZURESNOW"
+        },
+        "LS_BLOB_STAGE_sasUri": {
+            "value": ""
+        },
+        "LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url": {
+            "value": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "containerUri": {
+            "value": ""
+        },
+        "containerSasToken": {
+            "value": ""
+        }
+    }
+}

@@ -1,0 +1,285 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory name",
+            "defaultValue": "ADF-B11-ETL-DEV"
+        },
+        "LS_AZSQLDB_METADATA_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'LS_AZSQLDB_METADATA'"
+        },
+        "LS_REST_Parquet_accountKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'accountKey' of 'LS_REST_Parquet'"
+        },
+        "LS_SqlServerTable_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'LS_SqlServerTable'"
+        },
+        "LS_SNOWFLAKE_PARQ_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'LS_SNOWFLAKE_PARQ'"
+        },
+        "Tr_sample_snowflake_evt_properties_typeProperties_scope": {
+            "type": "string",
+            "defaultValue": "/subscriptions/3196cebb-2fa6-4fc4-8c00-05a6e7e83259/resourceGroups/VB_DEV_B11_ETL/providers/Microsoft.Storage/storageAccounts/bhumeetblobstageddev01"
+        },
+        "Tr_sample_csv_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_csv"
+        },
+        "Tr_sample_restApi_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_restApi"
+        },
+        "Tr_sample_bulk_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_bulk"
+        },
+        "Tr_sample_snowflake_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_snowflake"
+        },
+        "Tr_sample_sql_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_sql"
+        },
+        "Tr_sample_sftp_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_sftp"
+        },
+        "Tr_sample_json_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_json"
+        },
+        "Tr_sample_excel_properties_PL1_Master_parameters_Trigger": {
+            "type": "string",
+            "defaultValue": "Tr_sample_excel"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_server": {
+            "type": "string",
+            "defaultValue": "bhumeet-sql-srvr-vb-dev1.database.windows.net"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "sql-db-vb-dev"
+        },
+        "LS_AZSQLDB_METADATA_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "access-data-dev"
+        },
+        "LS_REST_Parquet_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://@{linkedService().storage_account_loc}.dfs.core.windows.net"
+        },
+        "LS_RestService1_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://retoolapi.dev/CGcIqK/data"
+        },
+        "LS_ADLS_devisionboardraw01_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevraw01.dfs.core.windows.net/"
+        },
+        "LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SqlServerTable_properties_typeProperties_server": {
+            "type": "string",
+            "defaultValue": "localhost"
+        },
+        "LS_SqlServerTable_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "vbproject"
+        },
+        "LS_SqlServerTable_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "thsisdataguy"
+        },
+        "LS_SQL_ADLS_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SFTP_SINK_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "LS_SNOWFLAKE_PARQ_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "DBAZURESNOW"
+        },
+        "LS_BLOB_STAGE_sasUri": {
+            "type": "secureString",
+            "metadata": "Secure string for 'sasUri' of 'LS_BLOB_STAGE'"
+        },
+        "LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://bhumeetadlsdevsrc001.dfs.core.windows.net/"
+        },
+        "containerUri": {
+            "type": "string",
+            "metadata": "URI to storage account containing linked ARM templates"
+        },
+        "containerSasToken": {
+            "type": "string",
+            "metadata": "Sas token to storage account containing linked ARM templates"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "ADF-B11-ETL-DEV_ArmTemplate_0",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2024-03-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "LS_AZSQLDB_METADATA_password": {
+                        "value": "[parameters('LS_AZSQLDB_METADATA_password')]"
+                    },
+                    "LS_REST_Parquet_accountKey": {
+                        "value": "[parameters('LS_REST_Parquet_accountKey')]"
+                    },
+                    "LS_SNOWFLAKE_PARQ_password": {
+                        "value": "[parameters('LS_SNOWFLAKE_PARQ_password')]"
+                    },
+                    "LS_AZSQLDB_METADATA_properties_typeProperties_server": {
+                        "value": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_server')]"
+                    },
+                    "LS_AZSQLDB_METADATA_properties_typeProperties_database": {
+                        "value": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_database')]"
+                    },
+                    "LS_AZSQLDB_METADATA_properties_typeProperties_userName": {
+                        "value": "[parameters('LS_AZSQLDB_METADATA_properties_typeProperties_userName')]"
+                    },
+                    "LS_REST_Parquet_properties_typeProperties_url": {
+                        "value": "[parameters('LS_REST_Parquet_properties_typeProperties_url')]"
+                    },
+                    "LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url": {
+                        "value": "[parameters('LS_AZADLS_VB_CLOUD_RAW_properties_typeProperties_url')]"
+                    },
+                    "LS_RestService1_properties_typeProperties_url": {
+                        "value": "[parameters('LS_RestService1_properties_typeProperties_url')]"
+                    },
+                    "LS_ADLS_devisionboardraw01_properties_typeProperties_url": {
+                        "value": "[parameters('LS_ADLS_devisionboardraw01_properties_typeProperties_url')]"
+                    },
+                    "LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url": {
+                        "value": "[parameters('LS_JSON_AzureDataLakeStorage1_properties_typeProperties_url')]"
+                    },
+                    "LS_SQL_ADLS_PARQ_properties_typeProperties_url": {
+                        "value": "[parameters('LS_SQL_ADLS_PARQ_properties_typeProperties_url')]"
+                    },
+                    "LS_SFTP_SINK_PARQ_properties_typeProperties_url": {
+                        "value": "[parameters('LS_SFTP_SINK_PARQ_properties_typeProperties_url')]"
+                    },
+                    "LS_SNOWFLAKE_PARQ_properties_typeProperties_database": {
+                        "value": "[parameters('LS_SNOWFLAKE_PARQ_properties_typeProperties_database')]"
+                    },
+                    "LS_BLOB_STAGE_sasUri": {
+                        "value": "[parameters('LS_BLOB_STAGE_sasUri')]"
+                    },
+                    "LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url": {
+                        "value": "[parameters('LS_SNOWFLAKE_SINK_PARQ_properties_typeProperties_url')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "ADF-B11-ETL-DEV_ArmTemplate_1",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2024-03-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "LS_SqlServerTable_password": {
+                        "value": "[parameters('LS_SqlServerTable_password')]"
+                    },
+                    "LS_SqlServerTable_properties_typeProperties_server": {
+                        "value": "[parameters('LS_SqlServerTable_properties_typeProperties_server')]"
+                    },
+                    "LS_SqlServerTable_properties_typeProperties_database": {
+                        "value": "[parameters('LS_SqlServerTable_properties_typeProperties_database')]"
+                    },
+                    "LS_SqlServerTable_properties_typeProperties_userName": {
+                        "value": "[parameters('LS_SqlServerTable_properties_typeProperties_userName')]"
+                    },
+                    "Tr_sample_snowflake_evt_properties_typeProperties_scope": {
+                        "value": "[parameters('Tr_sample_snowflake_evt_properties_typeProperties_scope')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ADF-B11-ETL-DEV_ArmTemplate_0')]"
+            ]
+        },
+        {
+            "name": "ADF-B11-ETL-DEV_ArmTemplate_2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2024-03-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "Tr_sample_csv_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_csv_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_restApi_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_restApi_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_bulk_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_bulk_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_snowflake_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_snowflake_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_sql_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_sql_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_sftp_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_sftp_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_json_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_json_properties_PL1_Master_parameters_Trigger')]"
+                    },
+                    "Tr_sample_excel_properties_PL1_Master_parameters_Trigger": {
+                        "value": "[parameters('Tr_sample_excel_properties_PL1_Master_parameters_Trigger')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ADF-B11-ETL-DEV_ArmTemplate_1')]"
+            ]
+        }
+    ]
+}
